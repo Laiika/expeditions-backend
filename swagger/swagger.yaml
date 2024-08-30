@@ -1,0 +1,1274 @@
+basePath: /api/v1
+definitions:
+  db_cp_6_internal_entity.CreateAdminInput:
+    properties:
+      login:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  db_cp_6_internal_entity.CreateArtifactInput:
+    properties:
+      age:
+        type: integer
+      location_id:
+        type: integer
+      name:
+        type: string
+    type: object
+  db_cp_6_internal_entity.CreateCuratorInput:
+    properties:
+      name:
+        type: string
+    type: object
+  db_cp_6_internal_entity.CreateEquipmentInput:
+    properties:
+      amount:
+        type: integer
+      expedition_id:
+        type: integer
+      name:
+        type: string
+    type: object
+  db_cp_6_internal_entity.CreateExpeditionInput:
+    properties:
+      end_date:
+        type: string
+      location_id:
+        type: integer
+      start_date:
+        type: string
+    type: object
+  db_cp_6_internal_entity.CreateLeaderInput:
+    properties:
+      login:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+    type: object
+  db_cp_6_internal_entity.CreateLocationInput:
+    properties:
+      country:
+        type: string
+      name:
+        type: string
+      nearest_town:
+        type: string
+    type: object
+  db_cp_6_internal_entity.CreateMemberInput:
+    properties:
+      login:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      role:
+        type: string
+    type: object
+  db_cp_6_internal_entity.LoginInput:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    required:
+    - login
+    - password
+    type: object
+  internal_controller_http_v1.newCuratorExpedition:
+    properties:
+      curator_id:
+        type: integer
+      expedition_id:
+        type: integer
+    type: object
+  internal_controller_http_v1.newExpeditionDates:
+    properties:
+      end_date:
+        type: string
+      start_date:
+        type: string
+    type: object
+  internal_controller_http_v1.newLeaderExpedition:
+    properties:
+      expedition_id:
+        type: integer
+      leader_id:
+        type: integer
+    type: object
+  internal_controller_http_v1.newMemberExpedition:
+    properties:
+      expedition_id:
+        type: integer
+      member_id:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: evgeniazavojskih@gmail.com
+    name: API Support
+  description: This is db course project backend API.
+  title: DB course project API
+  version: "1.0"
+paths:
+  /admin:
+    post:
+      consumes:
+      - application/json
+      description: add new admin
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about stored admin
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/db_cp_6_internal_entity.CreateAdminInput'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add new admin
+      tags:
+      - admin
+  /admin/{id}:
+    delete:
+      description: delete admin by id
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Admin id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete admin by id
+      tags:
+      - admin
+  /admins:
+    get:
+      description: return all admins
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show all admins
+      tags:
+      - admin
+  /artifact:
+    post:
+      consumes:
+      - application/json
+      description: add new artifact
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about stored artifact
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/db_cp_6_internal_entity.CreateArtifactInput'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add new artifact
+      tags:
+      - leader
+  /artifact/{location_id}:
+    get:
+      description: return all artifacts of specified location
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Id of location
+        in: path
+        name: location_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show artifacts of specified location
+      tags:
+      - member
+  /artifacts:
+    get:
+      description: return all artifacts
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show all artifacts
+      tags:
+      - member
+  /curator:
+    post:
+      consumes:
+      - application/json
+      description: add new curator
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about stored curator
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/db_cp_6_internal_entity.CreateCuratorInput'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add new curator
+      tags:
+      - leader
+  /curator/{expedition_id}:
+    get:
+      description: return all curators of specified expedition
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Id of expedition
+        in: path
+        name: expedition_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show curators of specified expedition
+      tags:
+      - member
+  /curator/{id}:
+    delete:
+      description: delete curator by id
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Curator id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete curator by id
+      tags:
+      - leader
+  /curator_expedition:
+    post:
+      consumes:
+      - application/json
+      description: add curator to expedition
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about curator and expedition
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller_http_v1.newCuratorExpedition'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add curator to expedition
+      tags:
+      - leader
+  /curators:
+    get:
+      description: return all curators
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show all curators
+      tags:
+      - member
+  /equipment:
+    post:
+      consumes:
+      - application/json
+      description: add new equipment
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about stored equipment
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/db_cp_6_internal_entity.CreateEquipmentInput'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add new equipment
+      tags:
+      - leader
+  /equipment/{expedition_id}:
+    get:
+      description: return all equipment of specified expedition
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Id of expedition
+        in: path
+        name: expedition_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show equipment of specified expedition
+      tags:
+      - member
+  /equipment/{id}:
+    delete:
+      description: delete equipment by id
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Equipment id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete equipment by id
+      tags:
+      - leader
+  /equipments:
+    get:
+      description: return all equipment
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show all equipment
+      tags:
+      - member
+  /expedition:
+    post:
+      consumes:
+      - application/json
+      description: add new expedition
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about stored expedition
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/db_cp_6_internal_entity.CreateExpeditionInput'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add new expedition
+      tags:
+      - leader
+  /expedition/{id}:
+    delete:
+      description: delete expedition by id
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Expedition id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete expedition by id
+      tags:
+      - leader
+    patch:
+      consumes:
+      - application/json
+      description: update expedition dates by id
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: New expedition dates
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller_http_v1.newExpeditionDates'
+      - description: Expedition id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update expedition dates by id
+      tags:
+      - leader
+  /expedition/{location_id}:
+    get:
+      description: return expeditions of specified location
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Id of location
+        in: path
+        name: location_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show expeditions of specified location
+      tags:
+      - member
+  /expeditions:
+    get:
+      description: return all expeditions
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show all expeditions
+      tags:
+      - member
+  /leader:
+    post:
+      consumes:
+      - application/json
+      description: add new leader
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about stored leader
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/db_cp_6_internal_entity.CreateLeaderInput'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add new leader
+      tags:
+      - admin
+  /leader/{expedition_id}:
+    get:
+      description: return all leaders of specified expedition
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Id of expedition
+        in: path
+        name: expedition_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show leaders of specified expedition
+      tags:
+      - member
+  /leader/{id}:
+    delete:
+      description: delete leader by id
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Leader id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete leader by id
+      tags:
+      - admin
+  /leader_expedition:
+    post:
+      consumes:
+      - application/json
+      description: add leader to expedition
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about leader and expedition
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller_http_v1.newLeaderExpedition'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add leader to expedition
+      tags:
+      - admin
+  /leaders:
+    get:
+      description: return all leaders
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show all leaders
+      tags:
+      - member
+  /location:
+    post:
+      consumes:
+      - application/json
+      description: add new location
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about stored location
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/db_cp_6_internal_entity.CreateLocationInput'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add new location
+      tags:
+      - leader
+  /location/{id}:
+    delete:
+      description: delete location by id
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Location id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete location by id
+      tags:
+      - leader
+  /locations:
+    get:
+      description: return all locations
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show all locations
+      tags:
+      - member
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: log in to the server
+      parameters:
+      - description: Authentication request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/db_cp_6_internal_entity.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Log in to the server
+      tags:
+      - common
+  /logout:
+    post:
+      description: log out from the server
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Log out from the server
+      tags:
+      - common
+  /member:
+    post:
+      consumes:
+      - application/json
+      description: add new member
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about stored member
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/db_cp_6_internal_entity.CreateMemberInput'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add new member
+      tags:
+      - leader
+  /member/{expedition_id}:
+    get:
+      description: return all members of specified expedition
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Id of expedition
+        in: path
+        name: expedition_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show members of specified expedition
+      tags:
+      - member
+  /member/{id}:
+    delete:
+      description: delete member by id
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Member id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete member by id
+      tags:
+      - leader
+  /member_expedition:
+    post:
+      consumes:
+      - application/json
+      description: add member to expedition
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: Information about member and expedition
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller_http_v1.newMemberExpedition'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add member to expedition
+      tags:
+      - leader
+  /members:
+    get:
+      description: return all members
+      parameters:
+      - description: User authentication token
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show all members
+      tags:
+      - member
+schemes:
+- http
+swagger: "2.0"
