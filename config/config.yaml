@@ -1,0 +1,31 @@
+http_server:
+  host: 0.0.0.0
+  port: 8080
+
+memberpostgres:
+  username: member1
+  password: member1
+  host: postgres-db-cp
+  port: 5432
+  dbname: cp
+
+leaderpostgres:
+  username: leader1
+  password: leader1
+  host: postgres-db-cp
+  port: 5432
+  dbname: cp
+
+adminpostgres:
+  username: admin1
+  password: admin1
+  host: postgres-db-cp
+  port: 5432
+  dbname: cp
+
+testpostgres:
+  username: zhenya_z
+  password: postgres
+  host: postgres-db-cp
+  port: 5432
+  dbname: res
